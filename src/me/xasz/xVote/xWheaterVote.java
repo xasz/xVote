@@ -7,7 +7,7 @@ public class xWheaterVote extends xAbstractVote{
 	public xWheaterVote(World w, xVote plugin) {
 		super(w, plugin);
 		// TODO Auto-generated constructor stub
-		this.votename = "xWheaterVote";
+		this.votename = "xWeatherVote";
 	}
 	@Override
 	protected void execute(){

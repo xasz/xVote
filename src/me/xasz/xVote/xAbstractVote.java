@@ -29,6 +29,10 @@ public abstract class xAbstractVote {
 	}
 	public void vote (Player p, boolean v){
 		votes.add(new xVoteConstruct(p,v));
+		if(votes.size() >= myWorld.getPlayers().size() && isVoteRunning){
+			//all players voted
+			timerEndExectue();
+		}
 	}
 	public boolean startVote(Player p,int playercount){
 		if(isVoteRunning){
@@ -66,24 +70,27 @@ public abstract class xAbstractVote {
 		fulltimerRunnable = x.getServer().getScheduler().scheduleSyncDelayedTask(x, new Runnable(){
 			@Override
 			public void run() {
-				x.sendBroadCastMessageToWorld(myWorld, ChatColor.GOLD+votename+ChatColor.WHITE+" - Current Result: "+ChatColor.GREEN+"Yes: "+ChatColor.WHITE+getYesVotes()+" / "+ChatColor.RED+"No: "+ChatColor.WHITE+getNoVotes());
-				x.sendBroadCastMessageToWorld(myWorld, "Needed Player for Success:"+getNeededPlayers());
-				x.getServer().getScheduler().cancelTask(fulltimerRunnable);
-				if((getYesVotes()-getNoVotes()) >= getNeededPlayers()){
-					x.sendBroadCastMessageToWorld(myWorld, ChatColor.GOLD+votename+ChatColor.GREEN+" - Vote success!");
-					execute();	
-				}else{
-					x.sendBroadCastMessageToWorld(myWorld, ChatColor.GOLD+votename+ChatColor.RED+" - Vote failed!");
-				}
-				votes.clear();
-				isVoteRunning = false;
+				timerEndExectue();
 			}
 			
 		},this.voteTimerSec*20);
 
 		
 	}
-
+	protected void timerEndExectue(){
+		x.sendBroadCastMessageToWorld(myWorld, ChatColor.GOLD+votename+ChatColor.WHITE+" - Current Result: "+ChatColor.GREEN+"Yes: "+ChatColor.WHITE+getYesVotes()+" / "+ChatColor.RED+"No: "+ChatColor.WHITE+getNoVotes());
+		x.sendBroadCastMessageToWorld(myWorld, "Needed Player for Success:"+getNeededPlayers());
+		x.getServer().getScheduler().cancelTask(fulltimerRunnable);
+		x.getServer().getScheduler().cancelTask(repeatingRunnable);
+		if((getYesVotes()-getNoVotes()) >= getNeededPlayers()){
+			x.sendBroadCastMessageToWorld(myWorld, ChatColor.GOLD+votename+ChatColor.GREEN+" - Vote success!");
+			execute();	
+		}else{
+			x.sendBroadCastMessageToWorld(myWorld, ChatColor.GOLD+votename+ChatColor.RED+" - Vote failed!");
+		}
+		votes.clear();
+		isVoteRunning = false;
+	}
 	protected void stopTimer(){
 		this.isVoteRunning = false;
 		this.x.getServer().getScheduler().cancelTask(repeatingRunnable);
