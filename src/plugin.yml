@@ -1,0 +1,8 @@
+name: xVote
+version: 0.1
+description: Vote Plugin for Weather and Time in Minecraft
+
+author: xasz
+
+main: me.xasz.xVote.xVote
+
