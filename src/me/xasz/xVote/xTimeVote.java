@@ -8,7 +8,6 @@ public class xTimeVote extends xAbstractVote{
 	public xTimeVote(World w,xVote v) {
 		super (w,v);
 		this.votename = "xTimeVote";
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

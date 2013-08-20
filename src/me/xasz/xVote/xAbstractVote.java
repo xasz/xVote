@@ -20,6 +20,7 @@ public abstract class xAbstractVote {
 	protected double successPercent = 0.6f;
 	protected int repeatingRunnable = 0;
 	protected int fulltimerRunnable = 0;
+	
 	public xAbstractVote(World w,xVote plugin){
 		myWorld = w;
 		this.x = plugin;
@@ -53,7 +54,7 @@ public abstract class xAbstractVote {
 	protected void startTimer(){
 		this.isVoteRunning = true;
 		this.timeLeftForVote = this.voteTimerSec;
-		repeatingRunnable = x.getServer().getScheduler().scheduleAsyncRepeatingTask(x,new Runnable(){
+		repeatingRunnable = x.getServer().getScheduler().scheduleSyncRepeatingTask(x,new Runnable(){
 			@Override
 			public void run() {
 				timeLeftForVote -= 10;

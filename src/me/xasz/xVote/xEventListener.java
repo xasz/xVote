@@ -39,10 +39,8 @@ public class xEventListener implements Listener{
 		if (event.getPlayer().getWorld().getTime() >= 0 &&event.getPlayer().getWorld().getTime() <= 12000){
 			isDay = true;
 		}
-		boolean isSun = false;
-		if (event.getPlayer().getWorld().getTime() >= 0 &&event.getPlayer().getWorld().getTime() <= 12000){
-			isSun = true;
-		}
+		boolean isStorm = event.getPlayer().getWorld().hasStorm();
+		
 		//timevoting
 		if(event.getClickedBlock().getType() == Material.BED_BLOCK){
 			if(timevotes.get(event.getPlayer().getWorld()).isVoteRunning()){
@@ -91,10 +89,10 @@ public class xEventListener implements Listener{
 						x.sendMessageToPlayer(event.getPlayer(),"You already voted.");	
 					}else{
 						weathervotes.get(event.getPlayer().getWorld()).vote(event.getPlayer(), true);
-						if(!isSun){
-							x.sendMessageToPlayer(event.getPlayer(),"You voted for Sun.");
+						if(isStorm){
+							x.sendMessageToPlayer(event.getPlayer(),"You voted for good Weather.");
 						}else{
-							x.sendMessageToPlayer(event.getPlayer(),"You voted for Storm.");
+							x.sendMessageToPlayer(event.getPlayer(),"You voted for bad Weather.");
 						}
 					}	
 				}else{
@@ -102,10 +100,10 @@ public class xEventListener implements Listener{
 						x.sendMessageToPlayer(event.getPlayer(),"You already voted.");	
 					}else{
 						weathervotes.get(event.getPlayer().getWorld()).vote(event.getPlayer(), false);
-						if(!isSun){
-							x.sendMessageToPlayer(event.getPlayer(),"You voted against Sun.");
+						if(isStorm){
+							x.sendMessageToPlayer(event.getPlayer(),"You voted against good Weather.");
 						}else{
-							x.sendMessageToPlayer(event.getPlayer(),"You voted against Storm.");
+							x.sendMessageToPlayer(event.getPlayer(),"You voted against bad Weather.");
 						}
 					}		
 				}
@@ -113,16 +111,43 @@ public class xEventListener implements Listener{
 			}else{
 				if(event.getPlayer().getItemInHand().getType() == Material.TORCH){
 					weathervotes.get(event.getPlayer().getWorld()).startVote(event.getPlayer(),event.getPlayer().getWorld().getPlayers().size());
-					if(!isSun){
-						x.sendBroadCastMessageToWorld(event.getPlayer().getWorld(), event.getPlayer().getName()+" started"+ChatColor.GOLD+" xStormVote");
-						weathervotes.get(event.getPlayer().getWorld()).setStopStorm(false);
-					}else{
-						x.sendBroadCastMessageToWorld(event.getPlayer().getWorld(), event.getPlayer().getName()+" started"+ChatColor.GOLD+" xSunVote");
+					if(isStorm){
+						x.sendBroadCastMessageToWorld(event.getPlayer().getWorld(), event.getPlayer().getName()+" started"+ChatColor.GOLD+" xStopStormVote");
 						weathervotes.get(event.getPlayer().getWorld()).setStopStorm(true);
+					}else{
+
+						x.sendBroadCastMessageToWorld(event.getPlayer().getWorld(), event.getPlayer().getName()+" started"+ChatColor.GOLD+" xStartStormVote");
+						weathervotes.get(event.getPlayer().getWorld()).setStopStorm(false);
 					}	
 				}
 	
 			}
 		}
+
+		/*if(event.getClickedBlock().getType() == Material.GRASS){
+			if(isStorm){
+				System.out.println("Es Regnet");
+			}else{
+				System.out.println("Kein Regen");
+			}
+		}
+		if(event.getClickedBlock().getType() == Material.GOLD_BLOCK){
+			if(isStorm){
+				System.out.println("Regen stoppen");
+				event.getPlayer().getWorld().setStorm(false);
+			}else{
+				System.out.println("Regen starten");
+				event.getPlayer().getWorld().setStorm(true);
+			}
+		}
+		if(event.getClickedBlock().getType() == Material.DIAMOND_BLOCK){
+			if(event.getPlayer().getWorld().isThundering()){
+				System.out.println("Thunder start");
+				event.getPlayer().getWorld().setThundering(true);
+			}else{
+				System.out.println("Thunder stop");
+				event.getPlayer().getWorld().setThundering(false);
+			}
+		}*/
 	}
 }

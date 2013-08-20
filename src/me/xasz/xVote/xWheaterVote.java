@@ -6,7 +6,6 @@ public class xWheaterVote extends xAbstractVote{
 	private boolean stopStorm = false;
 	public xWheaterVote(World w, xVote plugin) {
 		super(w, plugin);
-		// TODO Auto-generated constructor stub
 		this.votename = "xWeatherVote";
 	}
 	@Override
@@ -20,7 +19,7 @@ public class xWheaterVote extends xAbstractVote{
 			myWorld.setStorm(false);
 			return;
 		}
-		myWorld.setStorm(true);		
+		myWorld.setStorm(true);
 	}
 	public boolean isStopStorm() {
 		return stopStorm;
